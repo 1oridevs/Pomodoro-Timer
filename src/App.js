@@ -1,23 +1,40 @@
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
+  const [time, setTime] = useState(1500); // 25 minutes in seconds
+  const [isRunning, setIsRunning] = useState(false);
+
+  useEffect(() => {
+    let timer;
+    if (isRunning) {
+      timer = setInterval(() => {
+        setTime((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
+      }, 1000);
+    }
+    return () => clearInterval(timer);
+  }, [isRunning]);
+
+  const toggleTimer = () => setIsRunning(!isRunning);
+  const resetTimer = () => {
+    setIsRunning(false);
+    setTime(1500);
+  };
+
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <h1>Pomodoro Timer</h1>
+      <div className="timer">{formatTime(time)}</div>
+      <div className="controls">
+        <button onClick={toggleTimer}>{isRunning ? 'Pause' : 'Start'}</button>
+        <button onClick={resetTimer}>Reset</button>
+      </div>
     </div>
   );
 }
