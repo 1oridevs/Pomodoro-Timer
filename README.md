@@ -21,7 +21,7 @@ Follow these steps to run the project locally:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/pomodoro-timer.git
+   git clone https://github.com/1oridevs/Pomodoro-Timer.git
    cd pomodoro-timer
    ```
 2. Install dependencies:
