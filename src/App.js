@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
-  const [time, setTime] = useState(1500); // 25 minutes in seconds
+  const [time, setTime] = useState(1500);
   const [isRunning, setIsRunning] = useState(false);
 
   useEffect(() => {
@@ -12,10 +12,16 @@ function App() {
         setTime((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
       }, 1000);
     }
+    if (time === 0 && isRunning) {
+      alert('Time is up! Your Pomodoro session has ended. Take a break!');
+      setIsRunning(false);
+      setTime(1500);
+    }
     return () => clearInterval(timer);
-  }, [isRunning]);
+  }, [time, isRunning]);
 
   const toggleTimer = () => setIsRunning(!isRunning);
+
   const resetTimer = () => {
     setIsRunning(false);
     setTime(1500);
